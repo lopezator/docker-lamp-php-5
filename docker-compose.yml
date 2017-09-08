@@ -1,0 +1,26 @@
+version: '3.1'
+
+services:
+  rvw-server:
+    build:
+      context: .
+      dockerfile: docker/Dockerfile
+    container_name: server
+    ports:
+      - 8080:80
+    volumes:
+      - .:/var/www/docker-lamp-php-5
+      - ./logs/apache2:/var/log/apache2
+
+  rvw-mysql:
+    image: mysql:5.5
+    container_name: mysql
+    environment:
+      - MYSQL_ROOT_PASSWORD=some_password
+      - MYSQL_DATABASE=some_db
+      - MYSQL_USER=some_user
+      - MYSQL_PASSWORD=some_password
+    ports:
+      - 8306:3306
+    volumes:
+      - /var/lib/mysql/some_db:/var/lib/mysql/some_db
