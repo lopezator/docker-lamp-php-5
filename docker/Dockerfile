@@ -16,8 +16,13 @@ FROM php:5.5-apache
 # This command is used to install extensions from PECL where are not available via docker-php-ext-install
 #RUN docker-php-pecl-install <package_name-version> (versions available in PECL repository allowed)
 
+# If you are using XDebug, this might be useful, if not, ignore it
+# You additionally will have to customize docker/xdebug-ini-overrides.ini file to your needs
+#RUN docker-php-pecl-install xdebug-2.5.4
+#COPY docker/xdebug-ini-overrides.ini /usr/local/etc/php/conf.d/docker-php-pecl-xdebug.ini
+
 # Copy PHP configuration
-# Edit docker/php.ini and customize to your needs
+# Edit docker/php.ini and customize it to your needs
 COPY docker/php.ini /usr/local/etc/php/php.ini
 
 # Configure Apache VHOSTS
