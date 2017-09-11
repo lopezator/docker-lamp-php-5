@@ -1,29 +1,30 @@
+
 FROM php:5.5-apache
 
 # Install PHP extension dependencies (if any)
 #RUN apt-get update \
 #    && apt-get -y --no-install-recommends install <package_name>
 
-# Configure PHP extensions
-# Usually this isn't needed, only used in some special cases. intl, for example.
-# RUN docker-php-ext-configure <package_name>
-
-# Install PHP extensions
-# Package names full list: https://gist.github.com/chronon/95911d21928cff786e306c23e7d1d3f3
-#RUN docker-php-ext-install <package_name>
+# Copy PHP configuration
+# Edit docker/php.ini and customize it to your needs
+COPY docker/php.ini /usr/local/etc/php/php.ini
 
 # Copy custom command docker-php-pecl-install
-# This command is used to install extensions from PECL where are not available via docker-php-ext-install
+COPY docker/docker-php-pecl-install /usr/local/bin/
+
+# Install PHP extensions
+RUN docker-php-ext-install mysql
+RUN docker-php-ext-install mysqli
+RUN docker-php-ext-install pdo
+RUN docker-php-ext-install pdo_mysql
+
+# Install PECL extensions
 #RUN docker-php-pecl-install <package_name-version> (versions available in PECL repository allowed)
 
 # If you are using XDebug, this might be useful, if not, ignore it
 # You additionally will have to customize docker/xdebug-ini-overrides.ini file to your needs
 #RUN docker-php-pecl-install xdebug-2.5.4
 #COPY docker/xdebug-ini-overrides.ini /usr/local/etc/php/conf.d/docker-php-pecl-xdebug.ini
-
-# Copy PHP configuration
-# Edit docker/php.ini and customize it to your needs
-COPY docker/php.ini /usr/local/etc/php/php.ini
 
 # Configure Apache VHOSTS
 #COPY docker/mysite.com.conf /etc/apache2/sites-available/mysite.com.conf

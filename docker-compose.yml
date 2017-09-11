@@ -1,7 +1,7 @@
 version: '3.1'
 
 services:
-  rvw-server:
+  server:
     build:
       context: .
       dockerfile: docker/Dockerfile
@@ -12,7 +12,7 @@ services:
       - .:/var/www/docker-lamp-php-5
       - ./logs/apache2:/var/log/apache2
 
-  rvw-mysql:
+  db:
     image: mysql:5.5
     container_name: mysql
     environment:
